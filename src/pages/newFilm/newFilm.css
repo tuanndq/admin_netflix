@@ -1,0 +1,64 @@
+.newProduct {
+  flex: 4;
+  margin-left: 40px;
+  margin-bottom: 40px;
+}
+
+.addProductForm {
+  margin-top: 10px;
+}
+
+.addProductItem {
+  position: relative;
+  width: 60%;
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 10px;
+}
+
+.addProductItem > label {
+  color: gray;
+  font-weight: 600;
+  margin-bottom: 10px;
+}
+
+.addProductItem > input {
+  padding: 10px;
+}
+
+.addProductItem > select {
+  padding: 10px;
+}
+
+.addProductButton {
+  margin-top: 10px;
+  padding: 7px 10px;
+  border: none;
+  border-radius: 10px;
+  background-color: darkblue;
+  color: white;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.preview_img {
+  position: absolute;
+  width: 20%;
+  height: auto;
+  right: -300px;
+}
+
+.preview_video {
+  position: absolute;
+  width: 150px;
+  height: 150px;
+  right: -300px;
+  border: 1px solid #333;
+}
+
+.upload_btn {
+  width: 80px;
+  height: 30px;
+  background-color: #3589e9;
+  color: #fff;
+}
