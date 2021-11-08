@@ -7,6 +7,7 @@ import UserList from "./pages/userList/UserList";
 import User from "./pages/user/User";
 import NewUser from "./pages/newUser/NewUser";
 import FilmList from "./pages/filmList/FilmList";
+import NewList from "./pages/newList/NewList";
 import Film from "./pages/film/Film";
 import NewFilm from "./pages/newFilm/NewFilm";
 
@@ -31,6 +32,9 @@ function App() {
           </Route>
           <Route path="/films">
             <FilmList />
+          </Route>
+          <Route path="/newList">
+            <NewList />
           </Route>
           <Route path="/film/:filmId">
             <Film />

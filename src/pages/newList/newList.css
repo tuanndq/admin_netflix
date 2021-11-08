@@ -1,0 +1,37 @@
+input {
+  border: none;
+  height: 30px;
+  border-bottom: 1px solid gray;
+}
+
+.newList {
+  flex: 4;
+  margin-left: 40px;
+  margin-bottom: 40px;
+}
+
+.form_element {
+  width: 70%;
+  margin-bottom: 20px;
+}
+
+.form_element > input {
+  margin-left: 20px;
+}
+
+.modal_btn {
+  color: #fff !important;
+  background-color: #5babf5 !important;
+}
+
+.film_modal {
+  width: 80%;
+  height: 80%;
+  margin-left: 10%;
+  margin-top: 5%;
+}
+
+.submit_btn {
+  color: #fff !important;
+  background-color: #5babf5 !important;
+}
