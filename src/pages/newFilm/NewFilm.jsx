@@ -114,6 +114,7 @@ export default function NewFilm() {
       let posterSmUrl = await upload(preview.posterSm.file, 'image')
       let videoUrl = await upload(preview.video.file, 'video')
       let trailerUrl = await upload(preview.trailer.file, 'video')
+      console.log(trailerUrl);
 
       setNewFilm({
         ...newFilm,
