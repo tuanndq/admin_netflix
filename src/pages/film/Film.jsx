@@ -127,6 +127,8 @@ export default function Film() {
             <input type="number" value={editFilm.year === null ? film.year : editFilm.year} onChange={(e) => handleChange(e, 'year')} />
             <label>Imdb</label>
             <input type="number" value={editFilm.imdb === null ? film.imdb : editFilm.imdb} onChange={(e) => handleChange(e, 'imdb')} />
+            {/* <label>Actors</label>
+            <input type="text" value={editFilm.actors === null ? film.actors : editFilm.actors} onChange={(e) => handleChange(e, 'actors')} /> */}
           </div>
           <div className="productFormRight">
             <div className="productUpload">

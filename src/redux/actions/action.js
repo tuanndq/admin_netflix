@@ -65,3 +65,12 @@ export const getAllUser = () => async (dispatch) => {
     console.log(err)
   }
 }
+
+export const createNewUser = async (data) => {
+  try {
+    await axios.post(`${URL.BASE_URL}/api/newUser`, data)
+    alert('Create successfully!')
+  } catch(err) {
+    console.log(err)
+  }
+}
