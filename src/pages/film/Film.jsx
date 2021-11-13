@@ -4,7 +4,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { Link, useParams } from "react-router-dom";
 import Chart from "../../components/chart/Chart";
 import { Publish } from "@material-ui/icons";
-import { getFilmById } from "../../redux/actions/action";
+import { getFilmById, updateFilm } from "../../redux/actions/action";
 
 export default function Film() {
   const dispatch = useDispatch()
@@ -18,6 +18,7 @@ export default function Film() {
   let film = useSelector(state => (state.ListFilm.curFilm))
 
   let initEditFilm = {
+    _id: filmId,
     title: null,
     desc: null,
     poster: null,
@@ -30,18 +31,41 @@ export default function Film() {
     actors: null,
     isSeries: null,
     posterTitle: null,
+    imdb: null,
     posterSm: null,
-    imdb: null
+    posterSmFile: null,
   }
 
   let [editFilm, setEditFilm] = useState(initEditFilm)
 
   const handleChange = (e, name) => {
-    
     setEditFilm({
       ...editFilm,
       [name]: e.target.value 
     })
+  }
+
+  const handlePosterSm = (e) => {
+    let img = e.target.files[0]
+    let imgUrl = URL.createObjectURL(img)
+    console.log(imgUrl)
+    setEditFilm({
+      ...editFilm,
+      posterSm: imgUrl,
+      posterSmFile: img
+    })
+  }
+
+  const handleSubmit = () => {
+    let data = editFilm
+    Object.keys(data).map(k => {
+      if (data[k] === null) {
+        delete(data[k])
+      }
+      return null
+    })
+    console.log(data)
+    dispatch(updateFilm(data))
   }
 
   return (
@@ -53,9 +77,6 @@ export default function Film() {
         </Link>
       </div>
       <div className="productTop">
-        {/* <div className="productTopLeft">
-              <Chart data={productData} dataKey="Sales" title="Views"/>
-          </div> */}
         <div className="productTopRight">
           <div className="productInfoTop">
             <img
@@ -85,7 +106,7 @@ export default function Film() {
         </div>
       </div>
       <div className="productBottom">
-        <form className="productForm">
+        <div className="productForm">
           <div className="productFormLeft">
             <label>Title</label>
             <input type="text" name="title" value={editFilm.title === null ? film.title : editFilm.title} onChange={(e) => handleChange(e, 'title')} />
@@ -111,17 +132,20 @@ export default function Film() {
             <div className="productUpload">
               <img
                 src={editFilm.posterSm === null ? film.posterSm : editFilm.posterSm}
-                alt=""
+                alt="Poster Small"
                 className="productUploadImg"
               />
               <label for="file">
                 <Publish />
               </label>
-              <input type="file" id="file" style={{ display: "none" }} />
+              <input type="file" id="file" 
+                style={{ display: "none" }} 
+                onChange={handlePosterSm}
+              />
             </div>
-            <button className="productButton">Update</button>
+            <button className="productButton" onClick={handleSubmit} >Update</button>
           </div>
-        </form>
+        </div>
       </div>
     </div>
   );
