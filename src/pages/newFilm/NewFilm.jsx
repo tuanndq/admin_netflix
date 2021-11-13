@@ -1,6 +1,7 @@
 import { useState } from "react";
 import axios from 'axios'
 import "./newFilm.css";
+import { URL } from "../../redux/actions/globalTypes";
 
 export default function NewFilm() {
   let initPreview = {
@@ -97,7 +98,7 @@ export default function NewFilm() {
       type = type.toLowerCase()
       let response = await axios({
         method: 'post',
-        url: `http://localhost:5000/upload/${type}`,
+        url: `${URL.BASE_URL}/upload/${type}`,
         data: formData,
         headers: { 'Content-Type': 'multipart/form-data' }
       })
@@ -129,7 +130,7 @@ export default function NewFilm() {
 
       let response = await axios({
         method: 'post',
-        url: `http://localhost:5000/api/movie`,
+        url: `${URL.BASE_URL}/api/movie`,
         data: newFilm,
         headers: { 'Content-Type': 'application/json' }
       })

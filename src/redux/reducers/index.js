@@ -1,4 +1,5 @@
 import { combineReducers } from "redux";
-import auth from "./authReducer";
+import User from "./userReducer";
+import ListFilm from "./listFilmReducer";
 
-export default combineReducers({ auth });
+export default combineReducers({ User, ListFilm });

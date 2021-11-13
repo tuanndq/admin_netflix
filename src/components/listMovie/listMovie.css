@@ -1,9 +1,9 @@
 .productList{
-  /* flex: 4; */
+  position: relative;
   width: 100%;
   height: 100%;
-  overflow: hidden !important;
   background-color: aliceblue;
+  padding-bottom: 40px;
 }
 
 .productListItem{
@@ -32,4 +32,25 @@
 .productListDelete{
   color: red;
   cursor: pointer;
+}
+
+.control_btn {
+  position: absolute;
+  right: 10px;
+  bottom: 4px;
+}
+
+.aBtn {
+  width: 56px;
+  height: 36px;
+  margin: 4px !important;
+  color: #fff !important;
+}
+
+.cancel_btn {
+  background-color: #ee5050 !important;
+}
+
+.ok_btn {
+  background-color: #60b96c !important;
 }

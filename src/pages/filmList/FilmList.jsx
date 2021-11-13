@@ -1,21 +1,31 @@
 import "./filmList.css";
 import { DataGrid } from "@material-ui/data-grid";
 import { DeleteOutline } from "@material-ui/icons";
-import { filmRows, productRows } from "../../dummyData";
+import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import { GLOBALTYPES } from "../../redux/actions/globalTypes";
+import { getAllFilms } from "../../redux/actions/action";
 
 export default function FilmList() {
-  const [data, setData] = useState(filmRows);
+  const dispatch = useDispatch()
 
-  console.log(data)
+  useEffect(() => {
+    dispatch(getAllFilms())  
+  }, [])
+
+  let films = useSelector(state => {
+    let temp = state.ListFilm.allFilms
+    temp = temp.map((f, id) => ({ ...f, id: id }))
+    return temp
+  })
 
   const handleDelete = (id) => {
-    setData(data.filter((item) => item.id !== id));
+    
   };
 
   const columns = [
-    { field: "id", headerName: "ID", width: 90 },
+    { field: "_id", headerName: "ID", width: 90 },
     {
       field: "title",
       headerName: "Title",
@@ -40,7 +50,7 @@ export default function FilmList() {
       renderCell: (params) => {
         return (
           <>
-            <Link to={"/film/" + params.row.id}>
+            <Link to={"/film/" + params.row._id}>
               <button className="productListEdit">Edit</button>
             </Link>
             <DeleteOutline
@@ -54,12 +64,12 @@ export default function FilmList() {
   ];
 
   return (
-    <div className="productList">
+    <div className="film_list_container">
       <DataGrid
-        rows={data}
+        rows={films}
         disableSelectionOnClick
         columns={columns}
-        pageSize={8}
+        pageSize={9}
         checkboxSelection
       />
     </div>

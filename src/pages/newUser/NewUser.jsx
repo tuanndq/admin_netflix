@@ -1,6 +1,9 @@
 import "./newUser.css";
 
 export default function NewUser() {
+  let newUser = {
+  }
+
   return (
     <div className="newUser">
       <h1 className="newUserTitle">New User</h1>

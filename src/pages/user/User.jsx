@@ -6,15 +6,61 @@ import {
   PhoneAndroid,
   Publish,
 } from "@material-ui/icons";
-import { Link } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
+import { useSelector } from "react-redux";
+import axios from "axios";
 import "./user.css";
 import { useState } from "react";
-import { userRows } from "../../dummyData";
+import { URL } from "../../redux/actions/globalTypes";
 
 export default function User() {
-  const [data, setData] = useState(userRows[0])
+  const { userId } = useParams()
+  const user = useSelector(state => state.User.allUser.filter(u => u._id == userId)[0])
+  let birthday = {
+    day: null,
+    month: null,
+    year: null
+  }
+  let password = {
+    password: '',
+    newPassword: ''
+  }
 
-  // TODO: viết hàm onchange cho các input
+  const [editUser, setEditUser] = useState(user)
+
+  const handleUsername = (e) => { setEditUser({ ...editUser, username: e.target.value }) }
+  const handleFullName = (e) => { setEditUser({ ...editUser, fullname: e.target.value }) }
+  const handleDay = (e) => { birthday.day = e.target.value }
+  const handleMonth = (e) => { birthday.month = e.target.value }
+  const handleYear = (e) => { birthday.year = e.target.value }
+  const handleEmail = (e) => { setEditUser({ ...editUser, email: e.target.value }) }
+  const handleAvatar = (e) => { setEditUser({ ...editUser, profilePic: e.target.files[0] })}
+  const handlePassword = (e) => { password.password = e.target.value }
+  const handleNewPassword = (e) => { password.newPassword = e.target.value }
+  const handleUpdate = async () => {
+    try {
+      let avatarUrl = await upload(editUser.profilePic, 'image')
+    } catch (err) {
+
+    }
+  }
+
+  const upload = async (file, type) => {
+    let formData = new FormData()
+    formData.append(type, file)
+    try {
+      type = type.toLowerCase()
+      let response = await axios({
+        method: 'post',
+        url: `${URL.BASE_URL}/upload/${type}`,
+        data: formData,
+        headers: { 'Content-Type': 'multipart/form-data' }
+      })
+      return response.data.url
+    } catch(err) {
+      console.log(err) 
+    }
+  }
 
   return (
     <div className="user">
@@ -28,90 +74,105 @@ export default function User() {
         <div className="userShow">
           <div className="userShowTop">
             <img
-              src={data.profilePic}
+              src={user.profilePic}
               alt=""
               className="userShowImg"
             />
             <div className="userShowTopTitle">
-              <span className="userShowUsername">{data.username}</span>
-              <span className="userShowUserTitle">{data.isAdmin ? "Admin" : "User"}</span>
+              <span className="userShowUsername">{user.username}</span>
+              <span className="userShowUserTitle">{user.isAdmin ? "Admin" : "User"}</span>
             </div>
           </div>
           <div className="userShowBottom">
             <span className="userShowTitle">Account Details</span>
             <div className="userShowInfo">
               <PermIdentity className="userShowIcon" />
-              <span className="userShowInfoTitle">{data.username}</span>
+              <span className="userShowInfoTitle">{user.username}</span>
             </div>
             <div className="userShowInfo">
               <CalendarToday className="userShowIcon" />
-              <span className="userShowInfoTitle">{Object.keys(data.birthday).map(k => data.birthday[k]).join('/')}</span>
+              <span className="userShowInfoTitle">{Object.keys(user.birthday).map(k => user.birthday[k]).join('/')}</span>
             </div>
             <span className="userShowTitle">Contact Details</span>
-            <div className="userShowInfo">
+            {/* <div className="userShowInfo">
               <PhoneAndroid className="userShowIcon" />
-              <span className="userShowInfoTitle">{data.phoneNumber || "todo"}</span>
-            </div>
+              <span className="userShowInfoTitle">{user.phoneNumber || "todo"}</span>
+            </div> */}
             <div className="userShowInfo">
               <MailOutline className="userShowIcon" />
-              <span className="userShowInfoTitle">{data.email}</span>
+              <span className="userShowInfoTitle">{user.email}</span>
             </div>
-            <div className="userShowInfo">
+            {/* <div className="userShowInfo">
               <LocationSearching className="userShowIcon" />
-              <span className="userShowInfoTitle">{data.country || "todo"}</span>
-            </div>
+              <span className="userShowInfoTitle">{user.country || "todo"}</span>
+            </div> */}
           </div>
         </div>
         <div className="userUpdate">
           <span className="userUpdateTitle">Edit</span>
-          <form className="userUpdateForm">
+          <div className="userUpdateForm">
             <div className="userUpdateLeft">
               <div className="userUpdateItem">
                 <label>Username</label>
                 <input
                   type="text"
-                  value={data.username}
+                  value={editUser.username}
                   className="userUpdateInput"
+                  onChange={handleUsername}
                 />
               </div>
-              <div className="userUpdateItem">
+              {/* <div className="userUpdateItem">
                 <label>Full Name</label>
                 <input
                   type="text"
-                  value={data.fullName || "todo"}
+                  value={editUser.fullName || "todo"}
                   className="userUpdateInput"
+                  onChange={handleFullName}
                 />
-              </div>
+              </div> */}
               <div className="userUpdateItem">
                 <label>Date of birth</label>
                 <div className="dateOB">
-                  <input type="number" value={data.birthday.day} className="userUpdateInput" />
-                  <input type="number" value={data.birthday.month} className="userUpdateInput" />
-                  <input type="number" value={data.birthday.year} className="userUpdateInput" />
+                  <input type="number" 
+                    value={editUser.birthday.day}
+                    className="userUpdateInput"
+                    onChange={handleDay}
+                  />
+                  <input type="number" 
+                    value={editUser.birthday.month}
+                    className="userUpdateInput"
+                    onChange={handleMonth}
+                  />
+                  <input type="number" 
+                    value={editUser.birthday.year}
+                    className="userUpdateInput"
+                    onChange={handleYear}
+                  />
                 </div>
               </div>
               <div className="userUpdateItem">
                 <label>Email</label>
                 <input
                   type="text"
-                  value={data.email}
+                  value={editUser.email}
                   className="userUpdateInput"
+                  onChange={handleEmail}
                 />
               </div>
               <div className="userUpdateItem">
-                <label>Phone Number</label>
+                <label>Password</label>
                 <input
-                  type="text"
-                  value={data.phoneNumber || "todo"}
+                  type="password"
                   className="userUpdateInput"
+                  onChange={handlePassword}
                 />
               </div>
               <div className="userUpdateItem">
-                <label>Address</label>
+                <label>New Password</label>
                 <input
-                  type="text"
-                  value={data.address || "todo"}
+                  type="password"
                   className="userUpdateInput"
+                  onChange={handleNewPassword}
                 />
               </div>
             </div>
@@ -119,17 +180,19 @@ export default function User() {
               <div className="userUpdateUpload">
                 <img
                   className="userUpdateImg"
-                  src={data.profilePic}
+                  src={editUser.profilePic}
                   alt="Profile picture"
                 />
                 <label htmlFor="file">
                   <Publish className="userUpdateIcon" />
                 </label>
-                <input type="file" id="file" style={{ display: "none" }} />
+                <input type="file" id="file" style={{ display: "none" }}
+                  onChange={handleAvatar}
+                />
               </div>
-              <button className="userUpdateButton">Update</button>
+              <button className="userUpdateButton" onClick={handleUpdate} >Update</button>
             </div>
-          </form>
+          </div>
         </div>
       </div>
     </div>

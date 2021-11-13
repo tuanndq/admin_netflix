@@ -1,3 +1,6 @@
+import { useDispatch, useSelector } from "react-redux";
+import { useEffect } from "react";
+
 import Sidebar from "./components/sidebar/Sidebar";
 import Topbar from "./components/topbar/Topbar";
 import "./App.css";
@@ -10,8 +13,16 @@ import FilmList from "./pages/filmList/FilmList";
 import NewList from "./pages/newList/NewList";
 import Film from "./pages/film/Film";
 import NewFilm from "./pages/newFilm/NewFilm";
+import { GLOBALTYPES } from "./redux/actions/globalTypes";
+import { getAllFilms } from './redux/actions/action'
 
 function App() {
+  const dispatch = useDispatch()
+  
+  // useEffect(() => {
+  //   dispatch(getAllFilms())
+  // }, [])
+
   return (
     <Router>
       <Topbar />

@@ -1,21 +1,33 @@
-import "./listMovie.css";
 import { DataGrid } from "@material-ui/data-grid";
-import { DeleteOutline } from "@material-ui/icons";
 import { Button } from "@material-ui/core";
-import { filmRows, productRows } from "../../dummyData";
-import { Link } from "react-router-dom";
+import "./listMovie.css";
+import { useSelector, useDispatch } from 'react-redux'
 import { useState } from "react";
+import { GLOBALTYPES } from "../../redux/actions/globalTypes";
+import { Global } from "recharts";
 
-export default function FilmTable({ films }) {
+export default function FilmTable({ films, handleClose }) {
   const [data, setData] = useState(films);
+  const [selected, setSelected] = useState([])
+
+  const dispatch = useDispatch()
 
   const handleSelect = (rows) => {
-
+    let cFilms = []
+    if (rows.length > 0) {
+      cFilms = data.filter(f => rows.includes(f.id)).map(f => f._id)
+    }
+    setSelected(cFilms)
   }
 
-  const handleDelete = (id) => {
-    setData(data.filter((item) => item.id !== id));
-  };
+  const handleCloseModal = () => {
+    dispatch({ type: GLOBALTYPES.TOGGLE_MODAL, payload: false })
+  }
+
+  const selectFilms = () => {
+    dispatch({ type: GLOBALTYPES.SELECTED_FILM, payload: selected })
+    dispatch({ type: GLOBALTYPES.TOGGLE_MODAL, payload: false })
+  }
 
   const columns = [
     { field: "id", headerName: "ID", width: 90 },
@@ -48,8 +60,10 @@ export default function FilmTable({ films }) {
         pageSize={7}
         checkboxSelection
       />
-      {/* <Button>Cancel</Button>
-      <Button>Ok</Button> */}
+      <div className="control_btn">
+        <Button className="aBtn ok_btn" onClick={selectFilms}>Ok</Button>
+        <Button className="aBtn cancel_btn" onClick={handleCloseModal}>Cancel</Button>
+      </div>
     </div>
   );
 }
