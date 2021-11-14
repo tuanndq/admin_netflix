@@ -39,7 +39,7 @@ export default function NewFilm() {
 
   const handlePoster = (e) => {
     let file = e.target.files[0]
-    let url = URL.createObjectURL(file)
+    let url = window.URL.createObjectURL(file)
     setPreview({ ...preview,
       poster: {
         file,
@@ -50,7 +50,7 @@ export default function NewFilm() {
 
   const handlePosterTitle = (e) => {
     let file = e.target.files[0]
-    let url = URL.createObjectURL(file)
+    let url = window.URL.createObjectURL(file)
     setPreview({ ...preview,
       posterTitle: {
         file,
@@ -61,7 +61,7 @@ export default function NewFilm() {
 
   const handlePosterSm = (e) => {
     let file = e.target.files[0]
-    let url = URL.createObjectURL(file)
+    let url = window.URL.createObjectURL(file)
     setPreview({ ...preview,
       posterSm: {
         file,
@@ -152,7 +152,7 @@ export default function NewFilm() {
           <label>Poster Image</label>
           <input type="file" id="poster" onChange={handlePoster} />
           {/* <button className="upload_btn" onClick={uploadPoster}>Upload</button> */}
-          <img className="preview_img" src={preview.poster.url} alt="Preview poster" />
+          { preview.poster.url && <img className="preview_img" src={preview.poster.url} alt="Preview poster" /> }
         </div>
         <div className="addProductItem">
           <label>Title</label>
@@ -161,7 +161,7 @@ export default function NewFilm() {
         <div className="addProductItem">
           <label>Poster Title</label>
           <input type="file" id="posterTitle" onChange={handlePosterTitle} />
-          <img className="preview_img" src={preview.posterTitle.url} alt="Preview poster title" />
+          { preview.posterTitle.url && <img className="preview_img" src={preview.posterTitle.url} alt="Preview poster title" /> }
         </div>
         <div className="addProductItem">
           <label>Description</label>
@@ -197,7 +197,7 @@ export default function NewFilm() {
         <div className="addProductItem">
           <label>Poster Sm</label>
           <input type="file" id="posterSm" onChange={handlePosterSm} />
-          <img className="preview_img" src={preview.posterSm.url} alt="Preview poster sm" />
+          { preview.posterSm.url && <img className="preview_img" src={preview.posterSm.url} alt="Preview poster sm" /> }
         </div>
         <div className="addProductItem">
           <label>Video</label>

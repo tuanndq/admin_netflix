@@ -15,6 +15,7 @@ import Film from "./pages/film/Film";
 import NewFilm from "./pages/newFilm/NewFilm";
 import { GLOBALTYPES } from "./redux/actions/globalTypes";
 import { getAllFilms } from './redux/actions/action'
+import Login from "./pages/login/Login";
 
 function App() {
   const dispatch = useDispatch()
@@ -52,6 +53,9 @@ function App() {
           </Route>
           <Route path="/newfilm">
             <NewFilm />
+          </Route>
+          <Route path="/login">
+            <Login />
           </Route>
         </Switch>
       </div>

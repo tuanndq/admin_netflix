@@ -1,20 +1,17 @@
 import axios from "axios"
 import { URL, GLOBALTYPES } from './globalTypes'
 
-const upload = async (file, type) => {
-  let formData = new FormData()
-  formData.append(type, file)
+export const loginAction = async ({ email, password }) => {
   try {
-    type = type.toLowerCase()
-    let response = await axios({
-      method: 'post',
-      url: `${URL.BASE_URL}/upload/${type}`,
-      data: formData,
-      headers: { 'Content-Type': 'multipart/form-data' }
-    })
-    return response.data.url
+    let data = {
+      email, password
+    }
+    let res = await axios.post(`${URL.BASE_URL}/api/login`, data)
+    let { access_token, user } = res.data
+    localStorage.setItem('token', access_token)
+
   } catch(err) {
-    console.log(err) 
+    console.log(err)
   }
 }
 
@@ -92,5 +89,22 @@ export const deleteUserById = (id) => async (dispatch) => {
     dispatch({ type: GLOBALTYPES.GET_ALL_USER, payload: res.data })
   } catch(err) {
     console.log(err)
+  }
+}
+
+const upload = async (file, type) => {
+  let formData = new FormData()
+  formData.append(type, file)
+  try {
+    type = type.toLowerCase()
+    let response = await axios({
+      method: 'post',
+      url: `${URL.BASE_URL}/upload/${type}`,
+      data: formData,
+      headers: { 'Content-Type': 'multipart/form-data' }
+    })
+    return response.data.url
+  } catch(err) {
+    console.log(err) 
   }
 }

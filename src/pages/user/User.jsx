@@ -39,7 +39,7 @@ export default function User() {
 
   const handleAvatar = (e) => {
     let file = e.target.files[0]
-    let url = URL.createObjectUrl(file)
+    let url = window.URL.createObjectUrl(file)
     setEditUser({
       ...editUser,
       profilePic: url,
