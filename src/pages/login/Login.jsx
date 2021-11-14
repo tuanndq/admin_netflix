@@ -2,14 +2,16 @@ import React from 'react'
 import { Button } from '@material-ui/core'
 import './login.css'
 import { useState } from 'react'
+import { useDispatch } from 'react-redux'
 import { loginAction } from '../../redux/actions/action'
 
 export default function Login() {
   const [user, setUser] = useState({})
+  const dispatch = useDispatch()
+  
   const handleSubmit = (e) => {
     e.preventDefault()
-    console.log(user)
-    loginAction(user)
+    dispatch(loginAction(user))
   }
   return (
     <div className="loginForm">
@@ -20,6 +22,7 @@ export default function Login() {
             className="login_input" 
             onChange={e => setUser({...user, email: e.target.value})}
             required
+            autoComplete="off"
           />
         </div>
         <br />
@@ -29,6 +32,7 @@ export default function Login() {
             className="login_input" 
             onChange={e => setUser({...user, password: e.target.value})}
             required
+            autoComplete="off"
           />
         </div>
         <button className="login_btn" onClick={handleSubmit} >Login</button>

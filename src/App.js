@@ -1,5 +1,5 @@
 import { useDispatch, useSelector } from "react-redux";
-import { useEffect } from "react";
+import { Fragment, useEffect } from "react";
 
 import Sidebar from "./components/sidebar/Sidebar";
 import Topbar from "./components/topbar/Topbar";
@@ -24,39 +24,46 @@ function App() {
   //   dispatch(getAllFilms())
   // }, [])
 
+  let { token } = useSelector(state => state.User)
+  token = token === null ? localStorage.getItem('token') : token
+
   return (
     <Router>
-      <Topbar />
+      { token && <Topbar /> }
       <div className="container">
-        <Sidebar />
+      { token && 
+        <Sidebar /> }
         <Switch>
-          <Route exact path="/">
-            <Home />
-          </Route>
-          <Route path="/users">
-            <UserList />
-          </Route>
-          <Route path="/user/:userId">
-            <User />
-          </Route>
-          <Route path="/newUser">
-            <NewUser />
-          </Route>
-          <Route path="/films">
-            <FilmList />
-          </Route>
-          <Route path="/newList">
-            <NewList />
-          </Route>
-          <Route path="/film/:filmId">
-            <Film />
-          </Route>
-          <Route path="/newfilm">
-            <NewFilm />
-          </Route>
-          <Route path="/login">
+        {  token && 
+          <Fragment>
+            <Route exact path="/">
+              <Home />
+            </Route>
+            <Route path="/users">
+              <UserList />
+            </Route>
+            <Route path="/user/:userId">
+              <User />
+            </Route>
+            <Route path="/newUser">
+              <NewUser />
+            </Route>
+            <Route path="/films">
+              <FilmList />
+            </Route>
+            <Route path="/newList">
+              <NewList />
+            </Route>
+            <Route path="/film/:filmId">
+              <Film />
+            </Route>
+            <Route path="/newfilm">
+              <NewFilm />
+            </Route>
+          </Fragment> }
+          { !token && <Route path="/*">
             <Login />
-          </Route>
+          </Route> }
         </Switch>
       </div>
     </Router>

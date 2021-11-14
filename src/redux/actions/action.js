@@ -1,7 +1,10 @@
 import axios from "axios"
 import { URL, GLOBALTYPES } from './globalTypes'
 
-export const loginAction = async ({ email, password }) => {
+const AUTH_TOKEN = localStorage.getItem('token')
+axios.defaults.headers.common['Authorization'] = AUTH_TOKEN;
+
+export const loginAction = ({ email, password }) => async (dispatch) => {
   try {
     let data = {
       email, password
@@ -9,7 +12,8 @@ export const loginAction = async ({ email, password }) => {
     let res = await axios.post(`${URL.BASE_URL}/api/login`, data)
     let { access_token, user } = res.data
     localStorage.setItem('token', access_token)
-
+    dispatch({ type: GLOBALTYPES.LOGIN, payload: access_token })
+    window.location = URL.CLIENT_URL
   } catch(err) {
     console.log(err)
   }
