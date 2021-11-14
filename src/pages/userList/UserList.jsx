@@ -4,7 +4,7 @@ import { DeleteOutline } from "@material-ui/icons";
 import { Link } from "react-router-dom";
 import { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { getAllUser } from "../../redux/actions/action";
+import { getAllUser, deleteUserById } from "../../redux/actions/action";
 
 export default function UserList() {
   const dispatch = useDispatch()
@@ -17,7 +17,7 @@ export default function UserList() {
     return state.User.allUser.map((u, id) => ({ ...u, id }))
   })
   const handleDelete = (id) => {
-
+    dispatch(deleteUserById(id))
   };
   
   const columns = [

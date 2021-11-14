@@ -74,3 +74,23 @@ export const createNewUser = async (data) => {
     console.log(err)
   }
 }
+
+export const editUserById = async (data) => {
+  try {
+    await axios.put(`${URL.BASE_URL}/api/user/${data._id}`, data)
+    alert('Update successfully!')
+  } catch(err) {
+    alert('Update error!')
+    console.log(err)
+  }
+}
+
+export const deleteUserById = (id) => async (dispatch) => {
+  try {
+    await axios.delete(`${URL.BASE_URL}/api/user/delete/${id}`)
+    let res = await axios.get(`${URL.BASE_URL}/api/users`)
+    dispatch({ type: GLOBALTYPES.GET_ALL_USER, payload: res.data })
+  } catch(err) {
+    console.log(err)
+  }
+}

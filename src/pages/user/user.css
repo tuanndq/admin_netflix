@@ -167,3 +167,7 @@
 .dateOB > input {
   width: 30%;
 }
+
+.required {
+  color: red;
+}

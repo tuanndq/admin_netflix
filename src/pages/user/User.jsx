@@ -7,42 +7,44 @@ import {
   Publish,
 } from "@material-ui/icons";
 import { Link, useParams } from "react-router-dom";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 import axios from "axios";
 import "./user.css";
 import { useState } from "react";
 import { URL } from "../../redux/actions/globalTypes";
+import { editUserById } from "../../redux/actions/action";
 
 export default function User() {
   const { userId } = useParams()
   const user = useSelector(state => state.User.allUser.filter(u => u._id == userId)[0])
-  let birthday = {
-    day: null,
-    month: null,
-    year: null
-  }
-  let password = {
-    password: '',
-    newPassword: ''
-  }
 
   const [editUser, setEditUser] = useState(user)
 
-  const handleUsername = (e) => { setEditUser({ ...editUser, username: e.target.value }) }
-  const handleFullName = (e) => { setEditUser({ ...editUser, fullname: e.target.value }) }
-  const handleDay = (e) => { birthday.day = e.target.value }
-  const handleMonth = (e) => { birthday.month = e.target.value }
-  const handleYear = (e) => { birthday.year = e.target.value }
-  const handleEmail = (e) => { setEditUser({ ...editUser, email: e.target.value }) }
-  const handleAvatar = (e) => { setEditUser({ ...editUser, profilePic: e.target.files[0] })}
-  const handlePassword = (e) => { password.password = e.target.value }
-  const handleNewPassword = (e) => { password.newPassword = e.target.value }
-  const handleUpdate = async () => {
-    try {
-      let avatarUrl = await upload(editUser.profilePic, 'image')
-    } catch (err) {
-
+  const handleChange = (e, name) => {
+    const birthday = ['day', 'month', 'year']
+    if (!birthday.includes(name)) {
+      setEditUser({
+        ...editUser,
+        [name]: e.target.value
+      })
+    } else {
+      let tempBir = editUser.birthday
+      tempBir[name] = e.target.value
+      setEditUser({
+        ...editUser,
+        birthday: tempBir
+      })
     }
+  }
+
+  const handleAvatar = (e) => {
+    let file = e.target.files[0]
+    let url = URL.createObjectUrl(file)
+    setEditUser({
+      ...editUser,
+      profilePic: url,
+      profilePicFile: file
+    })
   }
 
   const upload = async (file, type) => {
@@ -59,6 +61,19 @@ export default function User() {
       return response.data.url
     } catch(err) {
       console.log(err) 
+    }
+  }
+
+  const handleUpdate = async () => {
+    try {
+      let data = editUser
+      if (editUser.profilePicFile) {
+        let url = await upload(editUser.profilePicFile, 'image')
+        data = { ...editUser, profilePic: url }
+      }
+      editUserById(data)
+    } catch (err) {
+
     }
   }
 
@@ -118,7 +133,7 @@ export default function User() {
                   type="text"
                   value={editUser.username}
                   className="userUpdateInput"
-                  onChange={handleUsername}
+                  onChange={(e) => handleChange(e, 'username')}
                 />
               </div>
               {/* <div className="userUpdateItem">
@@ -136,17 +151,17 @@ export default function User() {
                   <input type="number" 
                     value={editUser.birthday.day}
                     className="userUpdateInput"
-                    onChange={handleDay}
+                    onChange={(e) => handleChange(e, 'day')}
                   />
                   <input type="number" 
                     value={editUser.birthday.month}
                     className="userUpdateInput"
-                    onChange={handleMonth}
+                    onChange={(e) => handleChange(e, 'month')}
                   />
                   <input type="number" 
                     value={editUser.birthday.year}
                     className="userUpdateInput"
-                    onChange={handleYear}
+                    onChange={(e) => handleChange(e, 'year')}
                   />
                 </div>
               </div>
@@ -156,15 +171,7 @@ export default function User() {
                   type="text"
                   value={editUser.email}
                   className="userUpdateInput"
-                  onChange={handleEmail}
-                />
-              </div>
-              <div className="userUpdateItem">
-                <label>Password</label>
-                <input
-                  type="password"
-                  className="userUpdateInput"
-                  onChange={handlePassword}
+                  onChange={(e) => handleChange(e, 'email')}
                 />
               </div>
               <div className="userUpdateItem">
@@ -172,8 +179,18 @@ export default function User() {
                 <input
                   type="password"
                   className="userUpdateInput"
-                  onChange={handleNewPassword}
+                  onChange={(e) => handleChange(e, 'newPassword')}
                 />
+              </div>
+              <div className="userUpdateItem">
+                <label>Is Admin</label>
+                <select className="" name="isAdmin" id="isAdmin"
+                  value={editUser.isAdmin || false}
+                  onChange={(e) => handleChange(e, 'isAdmin')}
+                >
+                  <option value="true" >Yes</option>
+                  <option value="false" >No</option>
+                </select>
               </div>
             </div>
             <div className="userUpdateRight">
