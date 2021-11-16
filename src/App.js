@@ -16,6 +16,7 @@ import NewFilm from "./pages/newFilm/NewFilm";
 import { GLOBALTYPES } from "./redux/actions/globalTypes";
 import { getAllFilms } from './redux/actions/action'
 import Login from "./pages/login/Login";
+import NewEpisode from "./pages/newEpisode/NewEpisode";
 
 function App() {
   const dispatch = useDispatch()
@@ -57,8 +58,11 @@ function App() {
             <Route path="/film/:filmId">
               <Film />
             </Route>
-            <Route path="/newfilm">
+            <Route path="/newFilm">
               <NewFilm />
+            </Route>
+            <Route path="/newEpisode">
+              <NewEpisode />
             </Route>
           </Fragment> }
           { !token && <Route path="/*">

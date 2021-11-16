@@ -1,0 +1,56 @@
+.new-episode {
+  flex: 4;
+  margin-left: 2rem;
+}
+.new-episode-element {
+  margin-top: 40px;
+  margin-bottom: 40px;
+  display: flex;
+}
+.new-episode-element > label {
+  margin-right: 2rem;
+  display: block;
+  min-width: 100px;
+  font-size: 1.2rem;
+  font-weight: bold;
+}
+.new-episode-element input, textarea {
+  width: 400px;
+}
+.userUpdateIcon {
+  position: relative;
+  left: 40px;
+}
+.new-episode-img {
+  position: relative;
+  left: 500px;
+  width: 20%;
+  height: 20%;
+}
+.new-episode-element-child {
+  display: flex;
+  flex-direction: column;
+  margin-top: 2rem;
+  margin-left: 40px;
+}
+.new-episode-element-child > label {
+  margin-bottom: 20px;
+}
+.new-episode-element-child > input {
+  margin-bottom: 20px;
+}
+.episode_submit_btn {
+  width: 80px;
+  height: 40px;
+  background-color: #4aa0f0;
+  border: none;
+  border-radius: 7px;
+  color: #fff;
+  margin-left: 42%;
+  margin-top: 30px;
+  margin-bottom: 200px;
+}
+.episode_submit_btn:hover {
+  background-color: #228df1;
+  cursor: pointer;
+}

@@ -96,6 +96,18 @@ export const deleteUserById = (id) => async (dispatch) => {
   }
 }
 
+export const createNewEpisode = async (data) => {
+  try {
+    let res = await upload(data.thumbnailFile, 'image')
+    delete(data.thumbnailFile)
+    data.thumbnail = res
+    await axios.post(`${URL.BASE_URL}/api/episode`, data)
+    alert('Create episode successfully!')
+  } catch(err) {
+    console.log(err)
+  } 
+}
+
 const upload = async (file, type) => {
   let formData = new FormData()
   formData.append(type, file)
