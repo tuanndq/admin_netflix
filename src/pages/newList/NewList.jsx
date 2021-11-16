@@ -4,11 +4,18 @@ import './newList.css'
 import { Modal, Button, Box } from '@material-ui/core'
 import { useSelector, useDispatch } from 'react-redux'
 import FilmTable from '../../components/listMovie/ListMovie'
-import { filmRows } from '../../dummyData'
+// import { filmRows } from '../../dummyData'
 import { GLOBALTYPES } from '../../redux/actions/globalTypes'
 
 export default function NewList() {
   const selectedFilm = useSelector(state => state.ListFilm.selectedFilm)
+  let films = useSelector(state => state.ListFilm.allFilms)
+  films = films.map((f, idx) => ({
+    ...f,
+    id: idx
+  }))
+
+  console.log(films)
 
   const initNewList = {
     title: '',
@@ -67,7 +74,7 @@ export default function NewList() {
         aria-labelledby="modal-modal-title"
         aria-describedby="modal-modal-description"
       >
-        <FilmTable films={filmRows} />
+        <FilmTable films={films} />
       </Modal>
 
       <br />
