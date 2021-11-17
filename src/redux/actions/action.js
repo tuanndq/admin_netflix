@@ -76,6 +76,17 @@ export const updateFilm = (data) => async (dispatch) => {
   }
 }
 
+export const deleteFilmById = (id) => async (dispatch) => {
+  try {
+    await axios.patch(`${URL.BASE_URL}/api/movie/delete/${id}`)
+    let res = await axios.get(`${URL.BASE_URL}/api/movies`)
+    dispatch({ type: GLOBALTYPES.GET_ALL_FILM, payload: res.data })
+    alert('Delete successfully')
+  } catch(err) {
+    console.log(err)
+  }
+}
+
 export const getAllUser = () => async (dispatch) => {
   try {
     let res = await axios.get(`${URL.BASE_URL}/api/users`)
@@ -114,6 +125,33 @@ export const deleteUserById = (id) => async (dispatch) => {
   }
 }
 
+// Lists
+export const createNewList = async (data) => {
+  try {
+    let res = await axios.post(`${URL.BASE_URL}/api/lists`, data)
+    alert('Create list successfully!')
+  } catch(err) {
+    console.log(err)
+  }
+}
+export const deleteListById = async (id) => {
+  try {
+    await axios.delete(`${URL.BASE_URL}/api/lists/delete/${id}`)
+    alert('Delete successfully!')
+  } catch(err) {
+    console.log(err)
+  }
+}
+export const updateListById = async (data) => {
+  try {
+    await axios.patch(`${URL.BASE_URL}/api/lists/update/${data._id}`, data)
+    alert('Update successfully!')
+  } catch(err) {
+    console.log(err)
+  }
+}
+
+// Episodes
 export const createNewEpisode = async (data) => {
   try {
     let res = await upload(data.thumbnailFile, 'image')
@@ -124,6 +162,22 @@ export const createNewEpisode = async (data) => {
   } catch(err) {
     console.log(err)
   } 
+}
+export const deleteEpisodeById = async (id) => {
+  try {
+    await axios.delete(`${URL.BASE_URL}/api/episode/delete/${id}`)
+    alert('Delete successfully!')
+  } catch(err) {
+    console.log(err)
+  }
+}
+export const updateEpisodeById = async (data) => {
+  try {
+    await axios.patch(`${URL.BASE_URL}/api/episode/update/${data._id}`, data)
+    alert('Update successfully!')
+  } catch(err) {
+    console.log(err)
+  }
 }
 
 const upload = async (file, type) => {

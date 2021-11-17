@@ -5,7 +5,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 import { useState, useEffect } from "react";
 import { GLOBALTYPES } from "../../redux/actions/globalTypes";
-import { getAllFilms } from "../../redux/actions/action";
+import { deleteFilmById, getAllFilms } from "../../redux/actions/action";
 
 export default function FilmList() {
   const dispatch = useDispatch()
@@ -21,7 +21,7 @@ export default function FilmList() {
   })
 
   const handleDelete = (id) => {
-    
+    dispatch(deleteFilmById(id))
   };
 
   const columns = [
@@ -55,7 +55,7 @@ export default function FilmList() {
             </Link>
             <DeleteOutline
               className="productListDelete"
-              onClick={() => handleDelete(params.row.id)}
+              onClick={() => handleDelete(params.row._id)}
             />
           </>
         );
