@@ -1,0 +1,26 @@
+.loading {
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 100;
+  width: 100vw;
+  height: 100vh;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  background-color: rgba(0, 0, 0, 0.7);
+  color: #fff;
+}
+
+.loading img {
+  width: 80px;
+  height: 80px;
+  border-radius: 50px;
+  object-fit: cover;
+}
+
+.loading span {
+  font-size: 1.8rem;
+}

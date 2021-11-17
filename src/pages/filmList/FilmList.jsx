@@ -8,21 +8,19 @@ import { GLOBALTYPES } from "../../redux/actions/globalTypes";
 import { getAllFilms } from "../../redux/actions/action";
 
 export default function FilmList() {
-  const dispatch = useDispatch()
+  const dispatch = useDispatch();
 
   useEffect(() => {
-    dispatch(getAllFilms())  
-  }, [])
+    dispatch(getAllFilms());
+  }, [dispatch]);
 
-  let films = useSelector(state => {
-    let temp = state.ListFilm.allFilms
-    temp = temp.map((f, id) => ({ ...f, id: id }))
-    return temp
-  })
+  let films = useSelector((state) => {
+    let temp = state.ListFilm.allFilms;
+    temp = temp.map((f, id) => ({ ...f, id: id }));
+    return temp;
+  });
 
-  const handleDelete = (id) => {
-    
-  };
+  const handleDelete = (id) => {};
 
   const columns = [
     { field: "_id", headerName: "ID", width: 90 },
