@@ -52,16 +52,28 @@ export default function Sidebar() {
                 Films
               </li>
             </Link>
+            <Link to="/newFilm" className="link">
+              <li className="sidebarListItem">
+                <BarChart className="sidebarIcon" />
+                New Films
+              </li>
+            </Link>
+            <Link to="/lists" className="link">
+              <li className="sidebarListItem">
+                <BarChart className="sidebarIcon" />
+                Lists
+              </li>
+            </Link>
             <Link to="/newList" className="link">
               <li className="sidebarListItem">
                 <BarChart className="sidebarIcon" />
                 New List
               </li>
             </Link>
-            <Link to="/newFilm" className="link">
+            <Link to="/episodes" className="link">
               <li className="sidebarListItem">
                 <BarChart className="sidebarIcon" />
-                New Films
+                Episodes
               </li>
             </Link>
             <Link to="/newEpisode" className="link">

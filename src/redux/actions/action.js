@@ -28,6 +28,24 @@ export const getAllFilms = () => async (dispatch) => {
   }
 }
 
+export const getAllLists = () => async (dispatch) => {
+  try {
+    let res = await axios.get(`${URL.BASE_URL}/api/lists`)
+    dispatch({ type: GLOBALTYPES.GET_ALL_LIST, payload: res.data })
+  } catch(err) {
+    console.log(err)
+  }
+}
+
+export const getAllEpisodes = () => async (dispatch) => {
+  try {
+    let res = await axios.get(`${URL.BASE_URL}/api/episodes`)
+    dispatch({ type: GLOBALTYPES.GET_ALL_EPISODE, payload: res.data })
+  } catch(err) {
+    console.log(err)
+  }
+}
+
 export const getFilmById = (id) => async (dispatch) => {
   try {
     let res = await axios.get(`${URL.BASE_URL}/api/movie/get/${id}`)

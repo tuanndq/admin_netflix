@@ -2,6 +2,8 @@ import { GLOBALTYPES } from "../actions/globalTypes";
 
 const initState = {
   allFilms: [],
+  lists: [],
+  episodes: [],
   curFilm: {},
   selectedFilm: [],
   isModalOpen: false
@@ -13,6 +15,16 @@ export default function ListFilm(state = initState, action) {
       return {
         ...state,
         allFilms: action.payload
+      }
+    case GLOBALTYPES.GET_ALL_LIST:
+      return {
+        ...state,
+        lists: action.payload
+      }
+    case GLOBALTYPES.GET_ALL_EPISODE:
+      return {
+        ...state,
+        episodes: action.payload
       }
     case GLOBALTYPES.GET_FILM_BY_ID:
       return {
