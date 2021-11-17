@@ -10,13 +10,15 @@ import UserList from "./pages/userList/UserList";
 import User from "./pages/user/User";
 import NewUser from "./pages/newUser/NewUser";
 import FilmList from "./pages/filmList/FilmList";
-import NewList from "./pages/newList/NewList";
 import Film from "./pages/film/Film";
 import NewFilm from "./pages/newFilm/NewFilm";
+import Lists from "./pages/lists/Lists";
+import NewList from "./pages/newList/NewList";
+import Episodes from "./pages/episodes/Episodes";
+import NewEpisode from "./pages/newEpisode/NewEpisode";
 import { GLOBALTYPES } from "./redux/actions/globalTypes";
 import { getAllFilms } from "./redux/actions/action";
 import Login from "./pages/login/Login";
-import NewEpisode from "./pages/newEpisode/NewEpisode";
 import Alert from "./components/alert/Alert";
 
 function App() {
@@ -64,6 +66,12 @@ function App() {
               </Route>
               <Route path="/newEpisode">
                 <NewEpisode />
+              </Route>
+              <Route path="/episodes">
+                <Episodes />
+              </Route>
+              <Route path="/lists">
+                <Lists />
               </Route>
             </Fragment>
           )}

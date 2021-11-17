@@ -1,17 +1,11 @@
 import "./sidebar.css";
 import {
-  LineStyle,
-  Timeline,
-  TrendingUp,
+  PersonAdd,
   PermIdentity,
-  Storefront,
-  AttachMoney,
-  BarChart,
-  MailOutline,
-  DynamicFeed,
-  ChatBubbleOutline,
-  WorkOutline,
-  Report,
+  Movie,
+  GroupWork,
+  LocalMovies,
+  Home,
 } from "@material-ui/icons";
 
 import { Link } from "react-router-dom";
@@ -24,10 +18,10 @@ export default function Sidebar() {
           <h3 className="sidebarTitle">Dashboard</h3>
           <ul className="sidebarList">
             <Link to="/" className="link">
-            <li className="sidebarListItem active">
-              <LineStyle className="sidebarIcon" />
-              Home
-            </li>
+              <li className="sidebarListItem active">
+                <Home className="sidebarIcon" />
+                Home
+              </li>
             </Link>
           </ul>
         </div>
@@ -42,31 +36,43 @@ export default function Sidebar() {
             </Link>
             <Link to="/newUser" className="link">
               <li className="sidebarListItem">
-                <BarChart className="sidebarIcon" />
+                <PersonAdd className="sidebarIcon" />
                 New User
               </li>
             </Link>
             <Link to="/films" className="link">
               <li className="sidebarListItem">
-                <Storefront className="sidebarIcon" />
+                <Movie className="sidebarIcon" />
                 Films
-              </li>
-            </Link>
-            <Link to="/newList" className="link">
-              <li className="sidebarListItem">
-                <BarChart className="sidebarIcon" />
-                New List
               </li>
             </Link>
             <Link to="/newFilm" className="link">
               <li className="sidebarListItem">
-                <BarChart className="sidebarIcon" />
+                <GroupWork className="sidebarIcon" />
                 New Films
+              </li>
+            </Link>
+            <Link to="/lists" className="link">
+              <li className="sidebarListItem">
+                <LocalMovies className="sidebarIcon" />
+                Lists
+              </li>
+            </Link>
+            <Link to="/newList" className="link">
+              <li className="sidebarListItem">
+                <LocalMovies className="sidebarIcon" />
+                New List
+              </li>
+            </Link>
+            <Link to="/episodes" className="link">
+              <li className="sidebarListItem">
+                <Movie className="sidebarIcon" />
+                Episodes
               </li>
             </Link>
             <Link to="/newEpisode" className="link">
               <li className="sidebarListItem">
-                <BarChart className="sidebarIcon" />
+                <Movie className="sidebarIcon" />
                 New Episode
               </li>
             </Link>

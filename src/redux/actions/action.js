@@ -40,8 +40,9 @@ export const loginAction =
 export const updateFilm = (data) => async (dispatch) => {
   try {
     let editFilm = data;
+    dispatch({ type: GLOBALTYPES.ALERT, payload: { loading: true } });
     if (data.posterSmFile) {
-      let posterSm = await upload(data.posterSmFile, "image");
+      let posterSm = await upload(data.posterSmFile, "image", dispatch);
       delete data.posterSmFile;
       editFilm = {
         ...data,
@@ -50,6 +51,7 @@ export const updateFilm = (data) => async (dispatch) => {
     }
     await axios.patch(`${URL.BASE_URL}/api/movie/update/${data._id}`, editFilm);
     let res = await axios.get(`${URL.BASE_URL}/api/movie/get/${data._id}`);
+    dispatch({ type: GLOBALTYPES.ALERT, payload: { loading: false } });
     dispatch({ type: GLOBALTYPES.GET_FILM_BY_ID, payload: res.data });
   } catch (err) {
     dispatch({
@@ -71,10 +73,23 @@ export const logout = () => async (dispatch) => {
   }
 };
 
-export const getAllFilms = () => async (dispatch) => {
+export const getAllLists = () => async (dispatch) => {
   try {
-    let res = await axios.get(`${URL.BASE_URL}/api/movies`);
-    dispatch({ type: GLOBALTYPES.GET_ALL_FILM, payload: res.data });
+    dispatch({ type: GLOBALTYPES.ALERT, payload: { loading: true } });
+    let res = await axios.get(`${URL.BASE_URL}/api/lists`);
+    dispatch({ type: GLOBALTYPES.ALERT, payload: { loading: false } });
+    dispatch({ type: GLOBALTYPES.GET_ALL_LIST, payload: res.data });
+  } catch (err) {
+    console.log(err);
+  }
+};
+
+export const getAllEpisodes = () => async (dispatch) => {
+  try {
+    dispatch({ type: GLOBALTYPES.ALERT, payload: { loading: true } });
+    let res = await axios.get(`${URL.BASE_URL}/api/episodes`);
+    dispatch({ type: GLOBALTYPES.ALERT, payload: { loading: false } });
+    dispatch({ type: GLOBALTYPES.GET_ALL_EPISODE, payload: res.data });
   } catch (err) {
     console.log(err);
   }
@@ -82,8 +97,10 @@ export const getAllFilms = () => async (dispatch) => {
 
 export const getFilmById = (id) => async (dispatch) => {
   try {
+    dispatch({ type: GLOBALTYPES.ALERT, payload: { loading: true } });
     let res = await axios.get(`${URL.BASE_URL}/api/movie/get/${id}`);
     console.log(res.data);
+    dispatch({ type: GLOBALTYPES.ALERT, payload: { loading: false } });
     dispatch({ type: GLOBALTYPES.GET_FILM_BY_ID, payload: res.data });
   } catch (err) {
     console.log(err);
@@ -92,25 +109,42 @@ export const getFilmById = (id) => async (dispatch) => {
 
 export const getAllUser = () => async (dispatch) => {
   try {
+    dispatch({ type: GLOBALTYPES.ALERT, payload: { loading: true } });
     let res = await axios.get(`${URL.BASE_URL}/api/users`);
+    dispatch({ type: GLOBALTYPES.ALERT, payload: { loading: false } });
     dispatch({ type: GLOBALTYPES.GET_ALL_USER, payload: res.data });
   } catch (err) {
     console.log(err);
   }
 };
 
-export const createNewUser = async (data) => {
+export const getAllFilms = () => async (dispatch) => {
   try {
+    dispatch({ type: GLOBALTYPES.ALERT, payload: { loading: true } });
+    let res = await axios.get(`${URL.BASE_URL}/api/movies`);
+    dispatch({ type: GLOBALTYPES.ALERT, payload: { loading: false } });
+    dispatch({ type: GLOBALTYPES.GET_ALL_FILM, payload: res.data });
+  } catch (err) {
+    console.log(err);
+  }
+};
+
+export const createNewUser = async (data, dispatch) => {
+  try {
+    dispatch({ type: GLOBALTYPES.ALERT, payload: { loading: true } });
     await axios.post(`${URL.BASE_URL}/api/newUser`, data);
+    dispatch({ type: GLOBALTYPES.ALERT, payload: { loading: false } });
     alert("Create successfully!");
   } catch (err) {
     console.log(err);
   }
 };
 
-export const editUserById = async (data) => {
+export const editUserById = async (data, dispatch) => {
   try {
+    dispatch({ type: GLOBALTYPES.ALERT, payload: { loading: true } });
     await axios.put(`${URL.BASE_URL}/api/user/${data._id}`, data);
+    dispatch({ type: GLOBALTYPES.ALERT, payload: { loading: false } });
     alert("Update successfully!");
   } catch (err) {
     alert("Update error!");
@@ -120,20 +154,25 @@ export const editUserById = async (data) => {
 
 export const deleteUserById = (id) => async (dispatch) => {
   try {
+    dispatch({ type: GLOBALTYPES.ALERT, payload: { loading: true } });
     await axios.delete(`${URL.BASE_URL}/api/user/delete/${id}`);
     let res = await axios.get(`${URL.BASE_URL}/api/users`);
+    dispatch({ type: GLOBALTYPES.ALERT, payload: { loading: false } });
     dispatch({ type: GLOBALTYPES.GET_ALL_USER, payload: res.data });
   } catch (err) {
     console.log(err);
   }
 };
 
-export const createNewEpisode = async (data) => {
+export const createNewEpisode = (data) => async (dispatch) => {
   try {
-    let res = await upload(data.thumbnailFile, "image");
+    dispatch({ type: GLOBALTYPES.ALERT, payload: { loading: true } });
+    let res = await upload(data.thumbnailFile, "image", dispatch);
     delete data.thumbnailFile;
     data.thumbnail = res;
+    console.log(data);
     await axios.post(`${URL.BASE_URL}/api/episode`, data);
+    dispatch({ type: GLOBALTYPES.ALERT, payload: { loading: false } });
     alert("Create episode successfully!");
   } catch (err) {
     console.log(err);
@@ -141,9 +180,9 @@ export const createNewEpisode = async (data) => {
 };
 
 const upload = async (file, type, dispatch) => {
-  let formData = new FormData();
-  formData.append(type, file);
   try {
+    let formData = new FormData();
+    formData.append(type, file);
     dispatch({ type: GLOBALTYPES.ALERT, payload: { loading: true } });
     type = type.toLowerCase();
     let response = await axios({
