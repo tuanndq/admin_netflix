@@ -73,12 +73,30 @@ export const logout = () => async (dispatch) => {
   }
 };
 
+export const createNewList = async (data) => {
+  try {
+    let res = await axios.post(`${URL.BASE_URL}/api/lists`, data);
+    alert("Create list successfully!");
+  } catch (err) {
+    console.log(err);
+  }
+};
+
 export const getAllLists = () => async (dispatch) => {
   try {
     dispatch({ type: GLOBALTYPES.ALERT, payload: { loading: true } });
     let res = await axios.get(`${URL.BASE_URL}/api/lists`);
     dispatch({ type: GLOBALTYPES.ALERT, payload: { loading: false } });
     dispatch({ type: GLOBALTYPES.GET_ALL_LIST, payload: res.data });
+  } catch (err) {
+    console.log(err);
+  }
+};
+
+export const updateListById = async (data) => {
+  try {
+    await axios.patch(`${URL.BASE_URL}/api/lists/update/${data._id}`, data);
+    alert("Update successfully!");
   } catch (err) {
     console.log(err);
   }
@@ -129,6 +147,17 @@ export const getAllFilms = () => async (dispatch) => {
   }
 };
 
+export const deleteFilmById = (id) => async (dispatch) => {
+  try {
+    await axios.patch(`${URL.BASE_URL}/api/movie/delete/${id}`);
+    let res = await axios.get(`${URL.BASE_URL}/api/movies`);
+    dispatch({ type: GLOBALTYPES.GET_ALL_FILM, payload: res.data });
+    alert("Delete successfully");
+  } catch (err) {
+    console.log(err);
+  }
+};
+
 export const createNewUser = async (data, dispatch) => {
   try {
     dispatch({ type: GLOBALTYPES.ALERT, payload: { loading: true } });
@@ -174,6 +203,23 @@ export const createNewEpisode = (data) => async (dispatch) => {
     await axios.post(`${URL.BASE_URL}/api/episode`, data);
     dispatch({ type: GLOBALTYPES.ALERT, payload: { loading: false } });
     alert("Create episode successfully!");
+  } catch (err) {
+    console.log(err);
+  }
+};
+
+export const deleteEpisodeById = async (id) => {
+  try {
+    await axios.delete(`${URL.BASE_URL}/api/episode/delete/${id}`);
+    alert("Delete successfully!");
+  } catch (err) {
+    console.log(err);
+  }
+};
+export const updateEpisodeById = async (data) => {
+  try {
+    await axios.patch(`${URL.BASE_URL}/api/episode/update/${data._id}`, data);
+    alert("Update successfully!");
   } catch (err) {
     console.log(err);
   }

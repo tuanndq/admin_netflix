@@ -25,7 +25,7 @@ export default function Episodes() {
   };
 
   const columns = [
-    { field: "_id", headerName: "ID", width: 260 },
+    { field: "_id", headerName: "ID", width: 90 },
     {
       field: "title",
       headerName: "Title",
@@ -40,6 +40,24 @@ export default function Episodes() {
       },
     },
     { field: "duration", headerName: "Duration", width: 120 },
+    { field: "belongsToMovie.seasonName", headerName: "Season", width: 120,
+      renderCell: (params) => {
+        return (
+          <div className="productListItem">
+            {params.row.belongsToMovie.seasonName}
+          </div>
+        );
+      }
+    },
+    { field: "belongsToMovie.movieName", headerName: "Series", width: 120,
+      renderCell: (params) => {
+        return (
+          <div className="productListItem">
+            {params.row.belongsToMovie.movieName}
+          </div>
+        );
+      }
+    },
     {
       field: "action",
       headerName: "Action",

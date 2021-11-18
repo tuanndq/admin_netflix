@@ -6,6 +6,7 @@ import { useSelector, useDispatch } from "react-redux";
 import FilmTable from "../../components/listMovie/ListMovie";
 // import { filmRows } from '../../dummyData'
 import { GLOBALTYPES } from "../../redux/actions/globalTypes";
+import { createNewList } from "../../redux/actions/action";
 
 export default function NewList() {
   const selectedFilm = useSelector((state) => state.ListFilm.selectedFilm);
@@ -37,16 +38,11 @@ export default function NewList() {
   };
   const handleSubmit = async () => {
     let cSelectedFilm = selectedFilm.map((f) => ({ _id: f }));
-    dispatch({ type: GLOBALTYPES.ALERT, payload: { loading: true } });
-    setNewList({ ...newList, content: cSelectedFilm });
-    await axios.post("http://127.0.0.1:5000/api/lists", newList);
-    dispatch({
-      type: GLOBALTYPES.ALERT,
-      payload: {
-        loading: false,
-      },
-    });
-    alert("Create new list successfully!");
+    let data = {
+      ...newList,
+      content: cSelectedFilm,
+    };
+    dispatch(createNewList(data));
   };
 
   return (
