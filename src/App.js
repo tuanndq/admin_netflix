@@ -13,8 +13,10 @@ import FilmList from "./pages/filmList/FilmList";
 import Film from "./pages/film/Film";
 import NewFilm from "./pages/newFilm/NewFilm";
 import Lists from "./pages/lists/Lists"
+import List from "./pages/list/List"
 import NewList from "./pages/newList/NewList";
 import Episodes from "./pages/episodes/Episodes"
+import Episode from "./pages/episode/Episode"
 import NewEpisode from "./pages/newEpisode/NewEpisode";
 import { GLOBALTYPES } from "./redux/actions/globalTypes";
 import { getAllFilms } from './redux/actions/action'
@@ -63,11 +65,17 @@ function App() {
             <Route path="/lists">
               <Lists />
             </Route>
+            <Route path="/list/:id">
+              <List />
+            </Route>
             <Route path="/newList">
               <NewList />
             </Route>
             <Route path="/episodes">
               <Episodes />
+            </Route>
+            <Route path="/episode/:id">
+              <Episode />
             </Route>
             <Route path="/newEpisode">
               <NewEpisode />

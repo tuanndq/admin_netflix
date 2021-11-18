@@ -4,10 +4,11 @@ import { useDispatch, useSelector } from "react-redux";
 import { Link, useParams } from "react-router-dom";
 import Chart from "../../components/chart/Chart";
 import { Publish } from "@material-ui/icons";
-import { getFilmById, updateFilm } from "../../redux/actions/action";
+import { getAllFilms, getFilmById, updateFilm } from "../../redux/actions/action";
 
 export default function Film() {
   const dispatch = useDispatch()
+  dispatch(getAllFilms())
 
   const { filmId } = useParams()
   useEffect(() => {

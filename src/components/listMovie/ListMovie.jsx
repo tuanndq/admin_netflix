@@ -5,8 +5,9 @@ import { useSelector, useDispatch } from 'react-redux'
 import { useState } from "react";
 import { GLOBALTYPES } from "../../redux/actions/globalTypes";
 import { Global } from "recharts";
+import { getAllFilms } from "../../redux/actions/action";
 
-export default function FilmTable({ films, handleClose }) {
+export default function FilmTable({ films, handleClose, selectedFilms = [] }) {
   const [data, setData] = useState(films);
   const [selected, setSelected] = useState([])
 
@@ -28,6 +29,10 @@ export default function FilmTable({ films, handleClose }) {
     dispatch({ type: GLOBALTYPES.SELECTED_FILM, payload: selected })
     dispatch({ type: GLOBALTYPES.TOGGLE_MODAL, payload: false })
   }
+
+  // const selectedFilms = useSelector(state => state.ListFilm.selectedFilm)
+  const cSelectedFilms = films.filter(f => selectedFilms.includes(f._id)).map(f => f.id)
+  console.log('selected', cSelectedFilms)
 
   const columns = [
     { field: "id", headerName: "ID", width: 90 },
@@ -59,6 +64,7 @@ export default function FilmTable({ films, handleClose }) {
         columns={columns}
         pageSize={7}
         checkboxSelection
+        selectionModel={cSelectedFilms}
       />
       <div className="control_btn">
         <Button className="aBtn ok_btn" onClick={selectFilms}>Ok</Button>
