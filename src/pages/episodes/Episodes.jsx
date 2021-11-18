@@ -5,23 +5,23 @@ import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 import { useState, useEffect } from "react";
 import { GLOBALTYPES } from "../../redux/actions/globalTypes";
-import { getAllEpisodes } from "../../redux/actions/action";
+import { deleteEpisodeById, getAllEpisodes } from "../../redux/actions/action";
 
 export default function Episodes() {
-  const dispatch = useDispatch()
+  const dispatch = useDispatch();
 
   useEffect(() => {
-    dispatch(getAllEpisodes())
-  }, [])
+    dispatch(getAllEpisodes());
+  }, [dispatch]);
 
-  let episodes = useSelector(state => {
-    let temp = state.ListFilm.episodes
-    temp = temp.map((f, id) => ({ ...f, id: id }))
-    return temp
-  })
+  let episodes = useSelector((state) => {
+    let temp = state.ListFilm.episodes;
+    temp = temp.map((f, id) => ({ ...f, id: id }));
+    return temp;
+  });
 
   const handleDelete = (id) => {
-    
+    dispatch(deleteEpisodeById(id));
   };
 
   const columns = [
@@ -40,23 +40,29 @@ export default function Episodes() {
       },
     },
     { field: "duration", headerName: "Duration", width: 120 },
-    { field: "belongsToMovie.seasonName", headerName: "Season", width: 120,
+    {
+      field: "belongsToMovie.seasonName",
+      headerName: "Season",
+      width: 120,
       renderCell: (params) => {
         return (
           <div className="productListItem">
             {params.row.belongsToMovie.seasonName}
           </div>
         );
-      }
+      },
     },
-    { field: "belongsToMovie.movieName", headerName: "Series", width: 120,
+    {
+      field: "belongsToMovie.movieName",
+      headerName: "Series",
+      width: 120,
       renderCell: (params) => {
         return (
           <div className="productListItem">
             {params.row.belongsToMovie.movieName}
           </div>
         );
-      }
+      },
     },
     {
       field: "action",
@@ -70,7 +76,7 @@ export default function Episodes() {
             </Link>
             <DeleteOutline
               className="productListDelete"
-              onClick={() => handleDelete(params.row.id)}
+              onClick={() => handleDelete(params.row._id)}
             />
           </>
         );

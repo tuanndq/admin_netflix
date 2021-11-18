@@ -53,6 +53,7 @@ export const updateFilm = (data) => async (dispatch) => {
     let res = await axios.get(`${URL.BASE_URL}/api/movie/get/${data._id}`);
     dispatch({ type: GLOBALTYPES.ALERT, payload: { loading: false } });
     dispatch({ type: GLOBALTYPES.GET_FILM_BY_ID, payload: res.data });
+    alert("Update successfully!");
   } catch (err) {
     dispatch({
       type: GLOBALTYPES.ALERT,
@@ -73,9 +74,13 @@ export const logout = () => async (dispatch) => {
   }
 };
 
-export const createNewList = async (data) => {
+export const createNewList = (data) => async (dispatch) => {
   try {
-    let res = await axios.post(`${URL.BASE_URL}/api/lists`, data);
+    dispatch({ type: GLOBALTYPES.ALERT, payload: { loading: true } });
+    await axios.post(`${URL.BASE_URL}/api/lists`, data);
+    let res = await axios.get(`${URL.BASE_URL}/api/lists`);
+    dispatch({ type: GLOBALTYPES.GET_ALL_LIST, payload: res.data });
+    dispatch({ type: GLOBALTYPES.ALERT, payload: { loading: false } });
     alert("Create list successfully!");
   } catch (err) {
     console.log(err);
@@ -93,9 +98,13 @@ export const getAllLists = () => async (dispatch) => {
   }
 };
 
-export const updateListById = async (data) => {
+export const updateListById = (data) => async (dispatch) => {
   try {
+    dispatch({ type: GLOBALTYPES.ALERT, payload: { loading: true } });
     await axios.patch(`${URL.BASE_URL}/api/lists/update/${data._id}`, data);
+    let res = await axios.get(`${URL.BASE_URL}/api/lists`);
+    dispatch({ type: GLOBALTYPES.GET_ALL_LIST, payload: res.data });
+    dispatch({ type: GLOBALTYPES.ALERT, payload: { loading: false } });
     alert("Update successfully!");
   } catch (err) {
     console.log(err);
@@ -149,7 +158,7 @@ export const getAllFilms = () => async (dispatch) => {
 
 export const deleteFilmById = (id) => async (dispatch) => {
   try {
-    await axios.patch(`${URL.BASE_URL}/api/movie/delete/${id}`);
+    await axios.delete(`${URL.BASE_URL}/api/movie/delete/${id}`);
     let res = await axios.get(`${URL.BASE_URL}/api/movies`);
     dispatch({ type: GLOBALTYPES.GET_ALL_FILM, payload: res.data });
     alert("Delete successfully");
@@ -188,6 +197,20 @@ export const deleteUserById = (id) => async (dispatch) => {
     let res = await axios.get(`${URL.BASE_URL}/api/users`);
     dispatch({ type: GLOBALTYPES.ALERT, payload: { loading: false } });
     dispatch({ type: GLOBALTYPES.GET_ALL_USER, payload: res.data });
+    alert("Delete successfully!");
+  } catch (err) {
+    console.log(err);
+  }
+};
+
+export const deleteListById = (id) => async (dispatch) => {
+  try {
+    dispatch({ type: GLOBALTYPES.ALERT, payload: { loading: true } });
+    await axios.delete(`${URL.BASE_URL}/api/lists/delete/${id}`);
+    let res = await axios.get(`${URL.BASE_URL}/api/lists`);
+    dispatch({ type: GLOBALTYPES.GET_ALL_LIST, payload: res.data });
+    dispatch({ type: GLOBALTYPES.ALERT, payload: { loading: false } });
+    alert("Delete successfully");
   } catch (err) {
     console.log(err);
   }
@@ -208,17 +231,26 @@ export const createNewEpisode = (data) => async (dispatch) => {
   }
 };
 
-export const deleteEpisodeById = async (id) => {
+export const deleteEpisodeById = (id) => async (dispatch) => {
   try {
+    dispatch({ type: GLOBALTYPES.ALERT, payload: { loading: true } });
     await axios.delete(`${URL.BASE_URL}/api/episode/delete/${id}`);
+    let res = await axios.get(`${URL.BASE_URL}/api/episodes`);
+    dispatch({ type: GLOBALTYPES.GET_ALL_EPISODE, payload: res.data });
+    dispatch({ type: GLOBALTYPES.ALERT, payload: { loading: false } });
     alert("Delete successfully!");
   } catch (err) {
     console.log(err);
   }
 };
-export const updateEpisodeById = async (data) => {
+
+export const updateEpisodeById = (data) => async (dispatch) => {
   try {
+    dispatch({ type: GLOBALTYPES.ALERT, payload: { loading: true } });
     await axios.patch(`${URL.BASE_URL}/api/episode/update/${data._id}`, data);
+    let res = await axios.get(`${URL.BASE_URL}/api/episodes`);
+    dispatch({ type: GLOBALTYPES.GET_ALL_EPISODE, payload: res.data });
+    dispatch({ type: GLOBALTYPES.ALERT, payload: { loading: false } });
     alert("Update successfully!");
   } catch (err) {
     console.log(err);

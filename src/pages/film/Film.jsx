@@ -4,7 +4,11 @@ import { useDispatch, useSelector } from "react-redux";
 import { Link, useParams } from "react-router-dom";
 import Chart from "../../components/chart/Chart";
 import { Publish } from "@material-ui/icons";
-import { getFilmById, updateFilm } from "../../redux/actions/action";
+import {
+  getAllFilms,
+  getFilmById,
+  updateFilm,
+} from "../../redux/actions/action";
 
 export default function Film() {
   const dispatch = useDispatch();
@@ -13,7 +17,8 @@ export default function Film() {
   useEffect(() => {
     console.log("use effect");
     dispatch(getFilmById(filmId));
-  }, []);
+    dispatch(getAllFilms());
+  }, [dispatch, filmId]);
 
   let film = useSelector((state) => state.ListFilm.curFilm);
 
@@ -32,7 +37,7 @@ export default function Film() {
     isSeries: null,
     posterTitle: null,
     imdb: null,
-    posterSm: null,
+    posterSm: "",
     posterSmFile: null,
   };
 
@@ -186,7 +191,7 @@ export default function Film() {
             <div className="productUpload">
               <img
                 src={
-                  editFilm.posterSm === null ? film.posterSm : editFilm.posterSm
+                  editFilm.posterSm === "" ? film.posterSm : editFilm.posterSm
                 }
                 alt="Poster Small"
                 className="productUploadImg"

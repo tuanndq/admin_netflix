@@ -5,23 +5,23 @@ import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 import { useState, useEffect } from "react";
 import { GLOBALTYPES } from "../../redux/actions/globalTypes";
-import { getAllLists } from "../../redux/actions/action";
+import { deleteListById, getAllLists } from "../../redux/actions/action";
 
 export default function Lists() {
-  const dispatch = useDispatch()
+  const dispatch = useDispatch();
 
   useEffect(() => {
-    dispatch(getAllLists())  
-  }, [])
+    dispatch(getAllLists());
+  }, []);
 
-  let lists = useSelector(state => {
-    let temp = state.ListFilm.lists
-    temp = temp.map((f, id) => ({ ...f, id: id }))
-    return temp
-  })
+  let lists = useSelector((state) => {
+    let temp = state.ListFilm.lists;
+    temp = temp.map((f, id) => ({ ...f, id: id }));
+    return temp;
+  });
 
   const handleDelete = (id) => {
-    
+    dispatch(deleteListById(id));
   };
 
   const columns = [
@@ -45,7 +45,7 @@ export default function Lists() {
             </Link>
             <DeleteOutline
               className="productListDelete"
-              onClick={() => handleDelete(params.row.id)}
+              onClick={() => handleDelete(params.row._id)}
             />
           </>
         );

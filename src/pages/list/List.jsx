@@ -1,34 +1,45 @@
-import React, { useEffect } from "react";
+import React from "react";
 import axios from "axios";
-import "./newList.css";
+import "./list.css";
 import { Modal, Button, Box } from "@material-ui/core";
 import { useSelector, useDispatch } from "react-redux";
 import FilmTable from "../../components/listMovie/ListMovie";
 // import { filmRows } from '../../dummyData'
 import { GLOBALTYPES } from "../../redux/actions/globalTypes";
-import { createNewList, getAllFilms } from "../../redux/actions/action";
+import {
+  getAllFilms,
+  getAllLists,
+  updateListById,
+} from "../../redux/actions/action";
+import { useParams } from "react-router";
 
-export default function NewList() {
+export default function List() {
+  const dispatch = useDispatch();
+
+  const { id } = useParams();
+  React.useEffect(() => {
+    dispatch(getAllFilms());
+    dispatch(getAllLists());
+  }, []);
+
   const selectedFilm = useSelector((state) => state.ListFilm.selectedFilm);
   let films = useSelector((state) => state.ListFilm.allFilms);
   films = films.map((f, idx) => ({
     ...f,
     id: idx,
   }));
+  let list =
+    useSelector((state) => {
+      let lists = state.ListFilm.lists;
+      let temp = lists.filter((l) => l._id == id)[0];
+      return temp;
+    }) || {};
 
-  console.log(films);
+  let initEditList = { ...list };
 
-  const initNewList = {
-    title: "",
-    type: "",
-    genre: "",
-    content: [],
-  };
-
-  let [newList, setNewList] = React.useState(initNewList);
+  let [editList, setEditList] = React.useState(initEditList);
 
   const open = useSelector((state) => state.ListFilm.isModalOpen);
-  const dispatch = useDispatch();
 
   const handleOpen = () => {
     dispatch({ type: GLOBALTYPES.TOGGLE_MODAL, payload: true });
@@ -39,19 +50,15 @@ export default function NewList() {
   const handleSubmit = async () => {
     let cSelectedFilm = selectedFilm.map((f) => ({ _id: f }));
     let data = {
-      ...newList,
+      ...editList,
       content: cSelectedFilm,
     };
-    dispatch(createNewList(data));
+    dispatch(updateListById(data));
   };
-
-  useEffect(() => {
-    dispatch(getAllFilms());
-  }, [dispatch]);
 
   return (
     <div className="newList">
-      <h2>New List</h2>
+      <h2>Edit List</h2>
       <br />
 
       <div className="form_element">
@@ -59,8 +66,8 @@ export default function NewList() {
         <input
           type="text"
           id="list_title"
-          value={newList.title}
-          onChange={(e) => setNewList({ ...newList, title: e.target.value })}
+          value={editList.title}
+          onChange={(e) => setEditList({ ...editList, title: e.target.value })}
         />
       </div>
 
@@ -69,8 +76,8 @@ export default function NewList() {
         <input
           type="text"
           id="list_type"
-          value={newList.type}
-          onChange={(e) => setNewList({ ...newList, type: e.target.value })}
+          value={editList.type}
+          onChange={(e) => setEditList({ ...editList, type: e.target.value })}
         />
       </div>
 
@@ -79,8 +86,8 @@ export default function NewList() {
         <input
           type="text"
           id="list_genre"
-          value={newList.genre}
-          onChange={(e) => setNewList({ ...newList, genre: e.target.value })}
+          value={editList.genre}
+          onChange={(e) => setEditList({ ...editList, genre: e.target.value })}
         />
       </div>
 
@@ -88,7 +95,7 @@ export default function NewList() {
         Select film
       </Button>
       <br />
-      <span>{selectedFilm.length} films chose</span>
+      <span>{selectedFilm.length || list.content.length} films chose</span>
       <Modal
         className="film_modal"
         open={open}
@@ -96,7 +103,7 @@ export default function NewList() {
         aria-labelledby="modal-modal-title"
         aria-describedby="modal-modal-description"
       >
-        <FilmTable films={films} />
+        <FilmTable films={films} selectedFilms={list.content} />
       </Modal>
 
       <br />
