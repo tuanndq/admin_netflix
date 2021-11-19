@@ -41,19 +41,47 @@ export const updateFilm = (data) => async (dispatch) => {
   try {
     let editFilm = data;
     dispatch({ type: GLOBALTYPES.ALERT, payload: { loading: true } });
-    if (data.posterSmFile) {
-      let posterSm = await upload(data.posterSmFile, "image", dispatch);
-      delete data.posterSmFile;
-      editFilm = {
-        ...data,
-        posterSm,
-      };
+    if (data) {
+      let posterSmPromise = upload(data.posterSmFile, "image", dispatch);
+      let posterTitlePromise = upload(data.posterTitleFile, "image", dispatch);
+      let posterCardPromise = upload(data.posterCardFile, "image", dispatch);
+      let posterPromise = upload(data.posterFile, "image", dispatch);
+      let trailerPromise = upload(data.trailerFile, "image", dispatch);
+      let videoPromise = upload(data.videoFile, "image", dispatch);
+
+      Promise.all([
+        posterSmPromise,
+        posterTitlePromise,
+        posterCardPromise,
+        posterPromise,
+        trailerPromise,
+        videoPromise,
+      ])
+        .then((values) => {
+          const requestMovie = {
+            ...editFilm,
+            posterSm: values[0],
+            posterTitle: values[1],
+            posterCard: values[2],
+            poster: values[3],
+            trailer: values[4],
+            video: values[5],
+          };
+          return requestMovie;
+        })
+        .then(async (requestMovie) => {
+          await axios.patch(
+            `${URL.BASE_URL}/api/movie/update/${data._id}`,
+            requestMovie
+          );
+          let res = await axios.get(
+            `${URL.BASE_URL}/api/movie/get/${data._id}`
+          );
+          dispatch({ type: GLOBALTYPES.ALERT, payload: { loading: false } });
+          dispatch({ type: GLOBALTYPES.GET_FILM_BY_ID, payload: res.data });
+          alert("Update successfully!");
+        });
     }
-    await axios.patch(`${URL.BASE_URL}/api/movie/update/${data._id}`, editFilm);
-    let res = await axios.get(`${URL.BASE_URL}/api/movie/get/${data._id}`);
-    dispatch({ type: GLOBALTYPES.ALERT, payload: { loading: false } });
-    dispatch({ type: GLOBALTYPES.GET_FILM_BY_ID, payload: res.data });
-    alert("Update successfully!");
   } catch (err) {
     dispatch({
       type: GLOBALTYPES.ALERT,

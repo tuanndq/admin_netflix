@@ -22,9 +22,9 @@ export default function NewFilm() {
     video: "",
     year: 0,
     limitAge: 0,
-    genre: [],
+    genre: "",
     country: "",
-    actors: [],
+    actors: "",
     isSeries: false,
     posterTitle: "",
     posterSm: "",
@@ -39,6 +39,11 @@ export default function NewFilm() {
   const handleGenreChange = (e) => {
     let genres = e.target.value.split(", ");
     setNewFilm({ ...newFilm, genre: e.target.value });
+  };
+
+  const handleActorChange = (e) => {
+    let actors = e.target.value.split(", ");
+    setNewFilm({ ...newFilm, actors: e.target.value });
   };
 
   const handlePoster = (e) => {
@@ -249,6 +254,10 @@ export default function NewFilm() {
         <div className="addProductItem">
           <label>Genre</label>
           <input type="text" onChange={handleGenreChange} />
+        </div>
+        <div className="addProductItem">
+          <label>Actors</label>
+          <input type="text" onChange={handleActorChange} />
         </div>
         <div className="addProductItem">
           <label>Limit Age</label>

@@ -15,7 +15,6 @@ export default function Film() {
 
   const { filmId } = useParams();
   useEffect(() => {
-    console.log("use effect");
     dispatch(getFilmById(filmId));
     dispatch(getAllFilms());
   }, [dispatch, filmId]);
@@ -26,18 +25,24 @@ export default function Film() {
     _id: filmId,
     title: null,
     desc: null,
-    poster: null,
-    trailer: null,
-    video: null,
+    poster: "",
+    posterFile: null,
+    trailer: "",
+    trailerFile: null,
+    video: "",
+    videoFile: null,
     year: null,
     limitAge: null,
     genre: null,
     country: null,
     actors: null,
     isSeries: null,
-    posterTitle: null,
+    posterTitle: "",
+    posterTitleFile: null,
     imdb: null,
     posterSm: "",
+    posterCard: "",
+    posterCardFile: null,
     posterSmFile: null,
   };
 
@@ -50,14 +55,15 @@ export default function Film() {
     });
   };
 
-  const handlePosterSm = (e) => {
+  const handleMedia = (e) => {
     let img = e.target.files[0];
+    let name = e.target.name;
     let imgUrl = URL.createObjectURL(img);
-    console.log(imgUrl);
+
     setEditFilm({
       ...editFilm,
-      posterSm: imgUrl,
-      posterSmFile: img,
+      [name]: imgUrl,
+      [name + "File"]: img,
     });
   };
 
@@ -184,8 +190,12 @@ export default function Film() {
               value={editFilm.imdb === null ? film.imdb : editFilm.imdb}
               onChange={(e) => handleChange(e, "imdb")}
             />
-            {/* <label>Actors</label>
-            <input type="text" value={editFilm.actors === null ? film.actors : editFilm.actors} onChange={(e) => handleChange(e, 'actors')} /> */}
+            <label>Actors</label>
+            <input
+              type="text"
+              value={editFilm.actors === null ? film.actors : editFilm.actors}
+              onChange={(e) => handleChange(e, "actors")}
+            />
           </div>
           <div className="productFormRight">
             <div className="productUpload">
@@ -196,21 +206,114 @@ export default function Film() {
                 alt="Poster Small"
                 className="productUploadImg"
               />
-              <label for="file">
+              <label for="posterSm">
+                Poster Small
                 <Publish />
               </label>
               <input
                 type="file"
-                id="file"
+                id="posterSm"
                 style={{ display: "none" }}
-                onChange={handlePosterSm}
+                onChange={handleMedia}
+                name="posterSm"
               />
             </div>
-            <button className="productButton" onClick={handleSubmit}>
-              Update
-            </button>
+
+            <div className="productUpload">
+              <img
+                src={editFilm.poster === "" ? film.poster : editFilm.poster}
+                alt="Poster"
+                className="productUploadImg"
+              />
+              <label for="poster">
+                Poster
+                <Publish />
+              </label>
+              <input
+                type="file"
+                id="poster"
+                style={{ display: "none" }}
+                onChange={handleMedia}
+                name="poster"
+              />
+            </div>
+
+            <div className="productUpload">
+              <img
+                src={
+                  editFilm.posterCard === ""
+                    ? film.posterCard
+                    : editFilm.posterCard
+                }
+                alt="Poster Card"
+                className="productUploadImg"
+              />
+              <label for="posterCard">
+                Poster Card
+                <Publish />
+              </label>
+              <input
+                type="file"
+                id="posterCard"
+                style={{ display: "none" }}
+                onChange={handleMedia}
+                name="posterCard"
+              />
+            </div>
+
+            <div className="productUpload">
+              <img
+                src={
+                  editFilm.posterTitle === ""
+                    ? film.posterTitle
+                    : editFilm.posterTitle
+                }
+                alt="Poster Title"
+                className="productUploadImg"
+              />
+              <label for="posterTitle">
+                Poster Title
+                <Publish />
+              </label>
+              <input
+                type="file"
+                id="posterTitle"
+                style={{ display: "none" }}
+                onChange={handleMedia}
+                name="posterTitle"
+              />
+            </div>
+
+            <div className="productUpload">
+              <label for="trailer">
+                Trailer
+                <Publish />
+              </label>
+              <input
+                type="file"
+                id="trailer"
+                onChange={handleMedia}
+                name="trailer"
+              />
+            </div>
+
+            <div className="productUpload">
+              <label for="video">
+                Video
+                <Publish />
+              </label>
+              <input
+                type="file"
+                id="video"
+                onChange={handleMedia}
+                name="video"
+              />
+            </div>
           </div>
         </div>
+        <button className="productButton" onClick={handleSubmit}>
+          Update
+        </button>
       </div>
     </div>
   );
